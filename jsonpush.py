@@ -21,20 +21,21 @@ import html
 
 
 def checkArgs():
-    parser = argparse.ArgumentParser(description='JsonPythonPush to Coveo')
-    parser.add_argument('-org', type=str, help='Coveo Organization ID')
-    parser.add_argument('-source', type=str, help='Coveo Source ID')
-    parser.add_argument('-apikey', type=str, help='Coveo Push API Key')
-    parser.add_argument('-json', type=str, help='JSON file to process')
-    parser.add_argument('-uri', type=str, help='Uri contruction for the index')
-    parser.add_argument('--action', type=str, default='INITIAL',
-                        help='Action (INITIAL or UPDATE)')
-    parser.add_argument('--key', type=str, help='Key for the results')
-    parser.add_argument('--quickview', type=str, help='Quickview HTML file')
-    parser.add_argument('--createfields', type=str,
-                        help='Will create Fields in supplied Fields file.')
+  #Check all arguments
+  parser = argparse.ArgumentParser(description='JsonPythonPush to Coveo')
+  parser.add_argument('-org', type=str, help='Coveo Organization ID')
+  parser.add_argument('-source', type=str, help='Coveo Source ID')
+  parser.add_argument('-apikey', type=str, help='Coveo Push API Key')
+  parser.add_argument('-json', type=str, help='JSON file to process')
+  parser.add_argument('-uri', type=str, help='Uri contruction for the index')
+  parser.add_argument('--action', type=str, default='INITIAL',
+                      help='Action (INITIAL or UPDATE)')
+  parser.add_argument('--key', type=str, help='Key for the results')
+  parser.add_argument('--quickview', type=str, help='Quickview HTML file')
+  parser.add_argument('--createfields', type=str,
+                      help='Will create Fields in supplied Fields file.')
 
-    return parser.parse_args()
+  return parser.parse_args()
 
 
 def checkSettings(settings):
@@ -53,44 +54,40 @@ def checkSettings(settings):
         if (not os.path.exists(settings.json)):
             check = False
             print("-json, file: "+settings.json+" does not exists.")
-    # if (settings.createfields != ''):
-    #    # Check if file exists
-    #    if (not os.path.exists(settings.createfields)):
-    #        check = False
-    #        print("--createfields, file: "+settings.createfields+" does not exists.")
 
     return check
 
 
 def cleanCol(colname):
-    def strip_accents(text):
-        try:
-            text = unicode(text, 'utf-8')
-        except (TypeError, NameError):  # unicode is a default on python 3
-            pass
-        text = unicodedata.normalize('NFD', text)
-        text = text.encode('ascii', 'ignore')
-        text = text.decode("utf-8")
-        return str(text)
+  #Cleans the column, removes accents, remove bad characters
+  def strip_accents(text):
+      try:
+          text = unicode(text, 'utf-8')
+      except (TypeError, NameError):  # unicode is a default on python 3
+          pass
+      text = unicodedata.normalize('NFD', text)
+      text = text.encode('ascii', 'ignore')
+      text = text.decode("utf-8")
+      return str(text)
 
-    def text_to_id(text):
-        """
-        Convert input text to id.
+  def text_to_id(text):
+      """
+      Convert input text to id.
 
-        :param text: The input string.
-        :type text: String.
+      :param text: The input string.
+      :type text: String.
 
-        :returns: The processed String.
-        :rtype: String.
-        """
-        text = strip_accents(text.lower())
-        text = re.sub('[ ]+', '_', text)
-        text = re.sub('-', '_', text)
-        text = re.sub('[^0-9a-zA-Z_-]', '', text)
-        text = text.lower()
-        return text
+      :returns: The processed String.
+      :rtype: String.
+      """
+      text = strip_accents(text.lower())
+      text = re.sub('[ ]+', '_', text)
+      text = re.sub('-', '_', text)
+      text = re.sub('[^0-9a-zA-Z_-]', '', text)
+      text = text.lower()
+      return text
 
-    return text_to_id(colname)
+  return text_to_id(colname)
 
 
 def mapFields(jsond, text):
@@ -107,27 +104,28 @@ def mapFields(jsond, text):
 
 
 def translateJson(jsond):
-    out = {}
+  #Will flatten the JSON, including nested objects
+  out = {}
 
-    def flatten(x, name=''):
-        if type(x) is dict:
-            for a in x:
-                flatten(x[a], name + a + '_')
-        elif type(x) is list:
-            i = 0
-            for a in x:
-                # flatten(a, name + str(i) + '_')
-                flatten(a, name)
-                i += 1
-        else:
-            colname = cleanCol(name[:-1])
-            if colname in out:
-                out[colname] = out[colname]+';'+x
-            else:
-                out[colname] = x
+  def flatten(x, name=''):
+      if type(x) is dict:
+          for a in x:
+              flatten(x[a], name + a + '_')
+      elif type(x) is list:
+          i = 0
+          for a in x:
+              # flatten(a, name + str(i) + '_')
+              flatten(a, name)
+              i += 1
+      else:
+          colname = cleanCol(name[:-1])
+          if colname in out:
+              out[colname] = out[colname]+';'+x
+          else:
+              out[colname] = x
 
-    flatten(jsond)
-    return out
+  flatten(jsond)
+  return out
 
 
 def compare_json_data(source_data_a, source_data_b):
@@ -141,26 +139,27 @@ def compare_json_data(source_data_a, source_data_b):
 
 
 def updatedData(key, jsond, previous, settings):
-    thesame = False
-    found = False
-    # check if key is in previous
-    counter = 0
-    for item in previous:
-        currentkey = item['mykeyX']
-        if (key == currentkey):
-            found = True
-            # print (item)
-            # print (jsond)
-            # if so check if json is the same
-            if compare_json_data(jsond, item):
-                thesame = True
-            else:
-                thesame = False
+  #Check if the previous data was updated/changed
+  thesame = False
+  found = False
+  # check if key is in previous
+  counter = 0
+  for item in previous:
+      currentkey = item['mykeyX']
+      if (key == currentkey):
+          found = True
+          # print (item)
+          # print (jsond)
+          # if so check if json is the same
+          if compare_json_data(jsond, item):
+              thesame = True
+          else:
+              thesame = False
 
-            previous[counter]['mykeyfoundX'] = currentkey
-            break
-        counter = counter + 1
-    return thesame, found, previous
+          previous[counter]['mykeyfoundX'] = currentkey
+          break
+      counter = counter + 1
+  return thesame, found, previous
 
 
 def createQuickview(content, mydoc, settings):
