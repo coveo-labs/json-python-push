@@ -10,6 +10,9 @@ Features:
 - For every JSON property (including nested) a fieldname will be created.
 - Is using Batch Push calls.
 
+See the [examples](https://github.com/coveo-labs/json-python-push/tree/master/examples) on how to call the program
+
+
 ## Installation
 
 Make sure you have [git](https://git-scm.com/downloads) installed.
@@ -18,12 +21,12 @@ Then, in your command prompt, enter the following command:
 
 Install Program:
 ```
-pip install git+https://github.com/coveo-labs/json-python-push
+pip install git+https://github.com/coveo-labs/json-python-push --upgrade
 ```
 
 Install SDK:
 ```
-pip install git+https://github.com/coveo-labs/SDK-Push-Python
+pip install git+https://github.com/coveo-labs/SDK-Push-Python --upgrade
 ```
 
 This SDK depends on the [Python Requests](http://docs.python-requests.org/en/master/user/install/#install) and [JSONPickle](https://jsonpickle.github.io/#download-install) libraries. If you do not already have them, you need to run the following commands:
@@ -63,7 +66,7 @@ description_color
 
 Before you can start pushing, you need to create Fields. Using the parameter:
 ```bat
-python jsonpythonpush.py -org "ORGID" -apikey "xxx-aaa" -json "myjsonfile.json" -createfields 
+python jsonpush.py -org "ORGID" -apikey "xxx-aaa" -json "myjsonfile.json" -createfields 
 ```
 
 it will output all the (new) fields into the file referenced. 
@@ -84,13 +87,13 @@ Initial will push all JSON records to the new source.
 
 Example update:
 ```bat
-python jsonpythonpush.py -org "ORGID" -source "SOURCEID" -apikey "xxx-aaa" -json "myjsonfile.json" -uri "https://a.b?%[productcode]"  --action "UPDATE" --key "%[productcode]%[mastercode]" --quickview "VIEW.HTML"
+python jsonpush.py -org "ORGID" -source "SOURCEID" -apikey "xxx-aaa" -json "myjsonfile.json" -uri "https://a.b?%[productcode]"  --action "UPDATE" --key "%[productcode]%[mastercode]" --quickview "VIEW.HTML"
 
 ```
 
 Example initial:
 ```bat
-python jsonpythonpush.py -org "ORGID" -source "SOURCEID" -apikey "xxx-aaa" -json "myjsonfile.json" -uri "https://a.b?%[productcode]" --action "INITIAL" --key "%[productcode]%[mastercode]" --quickview "VIEW.HTML"
+python jsonpush.py -org "ORGID" -source "SOURCEID" -apikey "xxx-aaa" -json "myjsonfile.json" -uri "https://a.b?%[productcode]" --action "INITIAL" --key "%[productcode]%[mastercode]" --quickview "VIEW.HTML"
 ```
 
 Parameters explained:
