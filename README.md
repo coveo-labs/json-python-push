@@ -14,6 +14,7 @@ See the [examples](https://github.com/coveo-labs/json-python-push/tree/master/ex
 
 
 ## Installation
+** Use 64 bit Python **
 
 Make sure you have [git](https://git-scm.com/downloads) installed.
 

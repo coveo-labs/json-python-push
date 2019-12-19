@@ -31,9 +31,9 @@ def checkArgs():
   parser.add_argument('--action', type=str, default='INITIAL',
                       help='Action (INITIAL or UPDATE)')
   parser.add_argument('--key', type=str, help='Key for the results')
-  parser.add_argument('--quickview', type=str, help='Quickview HTML file')
+  parser.add_argument('--quickview', type=str, help='Quickview HTML file', default='')
   parser.add_argument('--createfields', type=str,
-                      help='Will create Fields in supplied Fields file.')
+                      help='Will create Fields in supplied Fields file.',default='')
 
   return parser.parse_args()
 
@@ -308,6 +308,8 @@ def getAllFields(settings):
 
 if __name__ == '__main__':
     settings = checkArgs()
+    nr = 0
+    total = 0
     if (checkSettings(settings)):
         if (settings.createfields != ''):
             # load quickview html
@@ -361,7 +363,10 @@ if __name__ == '__main__':
                                     item, settings.key)
                                 counter = counter + 1
                 # process currentdata
+                total = len(currentdata)
                 for content in currentdata:
+                    nr = nr + 1
+                    print( "Processing number: "+str(nr)+" of "+str(total))
                     jsond = translateJson(content)
                     if (first):
                         first = False
