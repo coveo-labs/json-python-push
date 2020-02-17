@@ -22,7 +22,7 @@ Then, in your command prompt, enter the following command:
 
 Install Program:
 ```
-pip install git+https://github.com/coveo-labs/json-python-push --upgrade
+Copy/Clone the repo
 ```
 
 Install SDK:
