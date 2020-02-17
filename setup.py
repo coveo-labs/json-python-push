@@ -6,7 +6,7 @@ setup(
     url='https://github.com/coveo-labs/json-python-push',
     author='Wim Nijmeijer',
     author_email='wnijmeijer@coveo.com',
-    packages=[],
+    packages=['json-python-push'],
     version='0.2',
     description='Coveo JSON Push client',
 )
