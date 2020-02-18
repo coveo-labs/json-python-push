@@ -120,9 +120,9 @@ def translateJson(jsond):
       else:
           colname = cleanCol(name[:-1])
           if colname in out:
-              out[colname] = out[colname]+';'+x
+              out[colname] = out[colname]+';'+str(x)
           else:
-              out[colname] = x
+              out[colname] = str(x)
 
   flatten(jsond)
   return out
