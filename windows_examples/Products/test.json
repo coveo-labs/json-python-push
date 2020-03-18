@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Test",
+        "product_id": "123455",
+        "product_details": "Lorem Ipsum Dolor Sit Amet"
+    },
+    {
+        "name": "Test",
+        "product_id": "123455",
+        "product_details": "Lorem Ipsum Dolor Sit Amet"
+    }
+]

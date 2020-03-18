@@ -15,6 +15,7 @@ See the [examples](https://github.com/coveo-labs/json-python-push/tree/master/ex
 
 ## Installation
 ** Use 64 bit Python **
+** Use Python 3 **
 
 Make sure you have [git](https://git-scm.com/downloads) installed.
 
@@ -25,12 +26,12 @@ Install Program:
 git clone https://github.com/coveo-labs/json-python-push.git
 ```
 
-Install SDK:
+Install SDK (might need to use pip3 if two versions of python are installed):
 ```
 pip install git+https://github.com/coveo-labs/SDK-Push-Python --upgrade
 ```
 
-This SDK depends on the [Python Requests](http://docs.python-requests.org/en/master/user/install/#install) and [JSONPickle](https://jsonpickle.github.io/#download-install) libraries. If you do not already have them, you need to run the following commands:
+This SDK depends on the [Python Requests](http://docs.python-requests.org/en/master/user/install/#install) and [JSONPickle](https://jsonpickle.github.io/#download-install) libraries. If you do not already have them, you need to run the following commands (might need to use pip3 if two versions of python are installed):
 
 ```
 pip install requests
@@ -51,7 +52,7 @@ The JSON can contain nested objects/arrays. All will be parsed. The following JS
 [{"productCode":"35870226","masterProductCode":"35870226","productName":"prodname","shortDescription":"descr","description":[{"Type":"Brick","Length in cm":"20","Material":"Rock","Color":"Transparent"}]},
 ```
 
-All will get the following fieldnames:
+The output will get the following fieldnames:
 ```
 productcode
 masterproductcode
@@ -65,9 +66,14 @@ description_color
 
 ### CreateFields
 
-Before you can start pushing, you need to create Fields. Using the parameter:
+Before you can start pushing, you will need to create Fields. 
+
+1. Create a file and use appropriate file extension (.sh for mac, or .bat for windows). 
+Example: Fields.sh (or Fields.bat - if on windows)
+
+2. Inside the file paste the following parameters:
 ```bat
-python jsonpush.py -org "ORGID" -apikey "xxx-aaa" -json "myjsonfile.json" -createfields 
+python jsonpush.py -org "orginzationId" -apikey "ApiKey" -json "test.json" -createfields "fields.json"
 ```
 
 it will output all the (new) fields into the file referenced. 

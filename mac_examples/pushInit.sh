@@ -1,0 +1,1 @@
+python ..//jsonpush.py -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "./Products/test.json" -uri "https://www.com.com/catalo/%%[sedetails_sug]-%%[productcode]-p" --action "INITIAL" --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"

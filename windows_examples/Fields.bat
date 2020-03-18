@@ -1,0 +1,1 @@
+python ..\jsonpush.py --createfields "fields.json" -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "D:\Products\test.json"
