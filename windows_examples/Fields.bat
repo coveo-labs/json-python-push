@@ -1,1 +1,1 @@
-python ..\jsonpush.py --createfields "fields.json" -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "D:\Products\test.json"
+python ..\jsonpush.py --createfields "fields.json" -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "D:\Products\test.json" --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"

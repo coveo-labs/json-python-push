@@ -14,7 +14,9 @@ See the [examples](https://github.com/coveo-labs/json-python-push/tree/master/ex
 
 
 ## Installation
+
 ** Use 64 bit Python **
+
 ** Use Python 3 **
 
 Make sure you have [git](https://git-scm.com/downloads) installed.
@@ -47,7 +49,8 @@ Once you have those prerequisites, you need to get your Organization Id, Source 
 
 ## JSON requirements
 
-The JSON can contain nested objects/arrays. All will be parsed. The following JSON:
+Nested objects/arrays in the JSON file will be parsed. 
+Take the following JSON for example:
 ```json
 [{"productCode":"35870226","masterProductCode":"35870226","productName":"prodname","shortDescription":"descr","description":[{"Type":"Brick","Length in cm":"20","Material":"Rock","Color":"Transparent"}]},
 ```
@@ -66,25 +69,37 @@ description_color
 
 ### CreateFields
 
-Before you can start pushing, you will need to create Fields. 
+Before you can start pushing, you will need to extract and create Fields. 
 
-1. Create a file and use appropriate file extension (.sh for mac, or .bat for windows). 
+Create a file with appropriate file extension (.sh for mac, or .bat for windows). 
 Example: Fields.sh (or Fields.bat - if on windows)
 
-2. Inside the file paste the following parameters:
+Inside the file paste the following parameters:
 ```bat
-python jsonpush.py -org "orginzationId" -apikey "ApiKey" -json "test.json" -createfields "fields.json"
+python ..//jsonpush.py --createfields "fields.json" -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "./Products/test.json" -uri "https://www.test.com/catalog/%%[product_id]"\ --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"
 ```
 
-it will output all the (new) fields into the file referenced. 
-
-The file will contain: all fieldnames, followed by the JSON for the [Fields call](https://platform.cloud.coveo.com/rest/organizations/{organizationId}/indexes/fields/batch/create).
-The URI, KEY and an example of the created Quickview.
+Parameters explained:
+* `jsonpush.py`: makes reference python to program. If it is not inside the same folder, you'll need to fix the path: Example: ..//jsonpush.py
+* `-org`: Coveo Organization ID which holds your Push source
+* `-apikey`: The API Key which was copied during the creation process of the Push source
+* `-json`: File containing the indexing content JSON to be pushed and for extraction of Fields
+* `-createfields`: Output file containing JSON items with fields array. 
+* `-uri`: The uri to construct. Format: %[fieldname]
+* `--key`: The unique key to check for the updates. Format: %[fieldname]
+* `--quickview`: The HTML file used for the quickview rendering.
 
 
 #### Now check the field definition and change it accordingly. Once a field is set, its content type cannot be changed!!!
 
-The contents of this file can be used in: [Swagger Call](https://platform.cloud.coveo.com/docs?api=Field#!/Fields/rest_organizations_paramId_indexes_fields_batch_create_post).
+Inside the new JSON file find and copy the section with the JSON array containing all the fields. 
+
+In order to create the fields you can either:
+
+Use the [Coveo Fields API](https://docs.coveo.com/en/8/cloud-v2-api-reference/field-api#operation/createFieldsUsingPOST) and push the Fields to your oranization as a batch push.
+
+Or, use Coveo's [Swagger Call](https://platform.cloud.coveo.com/docs?api=Field#!/Fields/rest_organizations_paramId_indexes_fields_batch_create_post).
+
 
 ### Index/Parameters
 
@@ -92,22 +107,22 @@ There are two index actions: Update or Initial.
 Update will check for a previous JSON file and will check the current file for changes. Only changes will be processed.
 Initial will push all JSON records to the new source.
 
-Example update:
+Example update (mac example):
 ```bat
-python jsonpush.py -org "ORGID" -source "SOURCEID" -apikey "xxx-aaa" -json "myjsonfile.json" -uri "https://a.b?%[productcode]"  --action "UPDATE" --key "%[productcode]%[mastercode]" --quickview "VIEW.HTML"
-
+python ../jsonpush.py -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "./Products/test.json" -uri "https://www.com.com/catalog/%%[product_details]-%%[product_id]-p" --action "UPDATE" --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"
 ```
 
-Example initial:
+Example initial (mac example):
 ```bat
-python jsonpush.py -org "ORGID" -source "SOURCEID" -apikey "xxx-aaa" -json "myjsonfile.json" -uri "https://a.b?%[productcode]" --action "INITIAL" --key "%[productcode]%[mastercode]" --quickview "VIEW.HTML"
+python ../jsonpush.py -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "./Products/test.json" -uri "https://www.com.com/catalo/%%[sedetails_sug]-%%[productcode]-p" --action "INITIAL" --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"
 ```
 
 Parameters explained:
-* `-org`: The Org id of the Coveo organization
-* `-source`: The Source id of the Coveo source
-* `-apikey`: The API Key which was copied during the creation process of the Push source.
-* `-json`: File which contains the JSON contents
+* `jsonpush.py`: Makes reference to the program. If it is not inside the same folder, you'll need to fix the path: Example: ..//jsonpush.py
+* `-org`: Coveo Organization ID, where Push source lives
+* `-apikey`: The API Key which was copied during the creation process of the Push source
+* `-json`: File containing the indexing JSON content to be pushed
+* `-source`: Coveo Source ID, pointing to the Push Source that will house the content to be indexed
 * `-uri`: The uri to construct. Format: %[fieldname]
 * `--action`: Action to perform (INITIAL or UPDATE)
 * `--key`: The unique key to check for the updates. Format: %[fieldname]
@@ -141,6 +156,7 @@ Example:
 ```
 ### Changes
 Oct 2019: Initial
+March 2020: Latest
 
 ### Dependencies
 - [Python 3.x](https://www.python.org/downloads/)
