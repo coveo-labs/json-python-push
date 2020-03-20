@@ -71,10 +71,10 @@ description_color
 
 Before you can start pushing, you will need to extract and create Fields. 
 
-Create a file with appropriate file extension (.sh for mac, or .bat for windows). 
+Create a new file with an appropriate file extension (.sh for mac, or .bat for windows). 
 Example: Fields.sh (or Fields.bat - if on windows)
 
-Inside the file paste the following parameters:
+Inside the file paste the following parameters and replace the placeholders with the appropriate values:
 ```bat
 python ..//jsonpush.py --createfields "fields.json" -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "./Products/test.json" -uri "https://www.test.com/catalog/%%[product_id]"\ --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"
 ```
