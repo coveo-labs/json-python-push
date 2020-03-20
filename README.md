@@ -80,7 +80,7 @@ python ..//jsonpush.py --createfields "fields.json" -org "organizationId" -sourc
 ```
 
 Parameters explained:
-* `jsonpush.py`: makes reference python to program. If it is not inside the same folder, you'll need to fix the path: Example: ..//jsonpush.py
+* `jsonpush.py`: Makes reference to the program. If it is not inside the same folder, you'll need to fix the path: Example: ..//jsonpush.py
 * `-org`: Coveo Organization ID which holds your Push source
 * `-apikey`: The API Key which was copied during the creation process of the Push source
 * `-json`: File containing the indexing content JSON to be pushed and for extraction of Fields
