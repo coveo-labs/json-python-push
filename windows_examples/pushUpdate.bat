@@ -1,0 +1,1 @@
+python ..\jsonpush.py -org "organizationId" -source "SourceId" -apikey "ApiKey" -json "D:\Products\myjson\tests.json" -uri "https://www.test.com/catalog/%%[product_id]-p" --action "UPDATE" --key "%%[product_id]-%%[product_details]-p" --quickview "my.HTML"
